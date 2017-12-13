@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">{{ document }}</li>
+{% endblock %}
+
+{% block content %}
+  
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>expense_item</th>
+        <th>income_item</th>
+        <th>quantity</th>
+        <th>amount</th>
+        <th>comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for document_item in document_table %}
+        <tr>
+          <td>
+            <a href="{% url 'home' %}"></a>{{ document_item.expense_item }}</a>
+          </td>
+          <td class="align-middle">{{ document_item.income_item }}</td>
+          <td class="align-middle">{{ document_item.quantity }}</td>
+          <td>{{ document_item.amount }}</td>
+          <td>{{ document_item.comment }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

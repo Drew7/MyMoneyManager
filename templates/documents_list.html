@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <h1 class="page-header">Documents</h1>
+  <p>
+    <button type="button" 
+            class="btn btn-primary js-create-document"
+            data-url="{% url 'document_create' %}">
+      <span class="fa fa-plus" aria-hidden="true"></span>
+      New document
+    </button>
+  </p>
+  <table class="table" id="documents-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Document type</th>
+        <th>Active</th>
+        <th>Counterparty</th>
+        <th>Wallet</th>
+        <th>Currency</th>
+        <th>Amount</th>
+        <th>User</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% include 'partial_document_list.html' %}
+    </tbody>
+  </table>
+  <div id="doc_pagination">
+    {% include 'includes/pagination_fbv.html' %}
+  </div>
+  <div class="modal fade" id="modal-document">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/documents.js' %}"></script>
+{% endblock %}

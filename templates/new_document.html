@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Start a New Topic{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Documents</a></li>
+  <li class="breadcrumb-item active">New document</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table>
+    {{ itemform.as_table }}
+    </table>
+    <button type="submit" class="btn btn-success">Post</button>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% if all_documents.has_other_pages %}
+<nav aria-label="Documents pagination" class="mb-4">
+  <ul class="pagination">
+    {% if all_documents.has_previous %}
+      <li class="page-item">
+        <a class="page-link" data-page="{{ all_documents.previous_page_number }}" href="?page={{ all_documents.previous_page_number }}">Previous</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Previous</span>
+      </li>
+    {% endif %}
+
+    {% for page_num in all_documents.paginator.page_range %}
+      {% if all_documents.number == page_num %}
+        <li class="page-item active">
+          <span class="page-link" data-page="{{ page_num }}">
+            {{ page_num }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" data-page="{{ page_num }}" href="?page={{ page_num }}">{{ page_num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if all_documents.has_next %}
+      <li class="page-item">
+        <a class="page-link" data-page="{{ all_documents.next_page_number }}" href="?page={{ all_documents.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
