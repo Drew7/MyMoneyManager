@@ -1,35 +1,32 @@
 {% extends 'base.html' %}
-{% load render_table from django_tables2 %}
 {% block breadcrumb %}
   <li class="breadcrumb-item active">Documents</li>
 {% endblock %}
+{% load static %}
 
 {% block content %}
-  <!--<table class="table">
-    <thead class="thead-inverse">
+<table class="table" id="documents-table" hidden = "true">
+    <thead>
       <tr>
-        <th>Document</th>
-        <th>Number</th>
-        <th>Date</th>
+        <th>#</th>
+        <th>Document type</th>
+        <th>Active</th>
+        <th>Counterparty</th>
+        <th>Wallet</th>
+        <th>Currency</th>
+        <th>Amount</th>
+        <th>User</th>
         <th>Comment</th>
       </tr>
     </thead>
     <tbody>
-      {% for document in all_documents %}
-        <tr>
-          <td>
-            <a href="{% url 'document' document.pk %}">{{ document }}</a>
-          </td>
-          <td class="align-middle">0</td>
-          <td class="align-middle">0</td>
-          <td></td>
-        </tr>
-      {% endfor %}
     </tbody>
   </table>
+  <div id="doc_pagination">
+  </div>
+ 
+{% endblock %}
 
-  {% include 'includes/pagination.html' %}-->
-
-  {% render_table all_documents %}
-
+{% block script %}
+<script src="{% static 'js/documents.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from .models import Exchange_rate, Document, DocumentItem
+from .models import Exchange_rate, Document, DocumentItem, Currency
 from .forms import NewDocumentForm, NewDocumentItemForm, DocumentForm, DocumentFormSet
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView
@@ -15,8 +15,22 @@ from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+def home(request):
+    all_documents = Document.objects.all()
+    return render(request, 'home.html', {'all_documents': all_documents})
+
+
 def documents_list(request):
     #all_documents = Document.objects.all()
+    element_fields = {'number': '#',
+                      'document_type': 'Document type',
+                      'active': 'Active',
+                      'counterparty': 'Counterparty',
+                      'wallet': 'Wallet',
+                      'currency': 'Currency',
+                      'amount': 'Amount',
+                      'user': 'User',
+                      'comment': 'Comment'}
     queryset = Document.objects.all()
     page = request.GET.get('page', 1)
 
@@ -32,17 +46,17 @@ def documents_list(request):
     if request.is_ajax():
         data = dict()
         data['html_document_list'] = render_to_string('partial_document_list.html', {
-            'all_documents': all_documents
+            'all_documents': all_documents, 'element_fields': element_fields
         })
         data['html_pagination'] = render_to_string('includes/pagination_fbv.html', {
-            'all_documents': all_documents
+            'all_documents': all_documents, 'element_fields': element_fields
         })
         return JsonResponse(data)
 
-    return render(request, 'documents_list.html', {'all_documents': all_documents})
+    return render(request, 'documents_list.html', {'all_documents': all_documents, 'element_fields': element_fields})
 
 
-def save_document_form(request, form, template_name, formset = None):
+def save_document_form(request, form, template_name, formset=None):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
@@ -54,7 +68,7 @@ def save_document_form(request, form, template_name, formset = None):
             })
         else:
             data['form_is_valid'] = False
-    context = {'form': form, 'formset' : formset}
+    context = {'form': form, 'formset': formset}
     data['html_form'] = render_to_string(
         template_name, context, request=request)
     return JsonResponse(data)
@@ -98,10 +112,35 @@ def document_delete(request, pk):
     return JsonResponse(data)
 
 
-@login_required
-def ex_rates(request):
-    ex_rates = Exchange_rate.objects.all()
-    return render(request, 'ex_rates.html', {'ex_rates': ex_rates})
+def currency_list(request):
+    element_fields = {'digital_code': 'Code',
+                      'name': 'Name',
+                      'active': 'Active',
+                      'char_code': 'Char code',
+                      'upload_rates': 'Upload_rates'}
+    queryset = Currency.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(queryset, 10)
+
+    try:
+        dictionary_elements = paginator.page(page)
+    except PageNotAnInteger:
+        dictionary_elements = paginator.page(1)
+    except EmptyPage:
+        dictionary_elements = paginator.page(paginator.num_pages)
+
+    if request.is_ajax():
+        data = dict()
+        data['html_dictionary_list'] = render_to_string('partial_dictionary_list.html', {
+            'dictionary_elements': dictionary_elements, 'element_fields': element_fields
+        })
+        data['html_pagination'] = render_to_string('includes/dictionary_pagination.html', {
+            'dictionary_elements': dictionary_elements, 'element_fields': element_fields
+        })
+        return JsonResponse(data)
+
+    return render(request, 'dictionary_list.html', {'dictionary_elements': dictionary_elements, 'element_fields': element_fields})
 
 
 @login_required
@@ -131,14 +170,6 @@ def documents(request, pk):
     document = get_object_or_404(Document, pk=pk)
     document_table = get_list_or_404(DocumentItem, document=document)
     return render(request, 'document.html', {'document': document, 'document_table': document_table})
-
-
-def home(request):
-    documents = Document.objects.all()
-    #return render(request, 'home.html', {'all_documents': all_documents})
-    all_documents = DocumentTable(documents)
-    RequestConfig(request).configure(all_documents)
-    return render(request, 'home.html', {'all_documents': documents})
 
 
 class DocumentListView(ListView):

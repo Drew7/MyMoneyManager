@@ -1,0 +1,15 @@
+{% load form_tags %}
+{% for dic_element in dictionary_elements %}
+<tr>
+  {% for key, value in element_fields.items %}
+    <td>{{ dic_element|get_item:key }}</td>
+  {% endfor %}
+  <td>
+    
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="7" class="text-center bg-warning">No elements</td>
+</tr>
+{% endfor %}

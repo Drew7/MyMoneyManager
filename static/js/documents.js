@@ -68,6 +68,22 @@ $(document).ready(function ($) {
         }
       });
   });
+  
+  $('#transactions').click(function(event) { 
+    event.preventDefault(); 
+    $.ajax({
+      type: "GET",  
+      url: $('#transactions').attr('href'),
+      dataType: "json",
+      success: function (data) {
+        history.pushState(null, null, $('#transactions').attr('href'));
+        $("#documents-table").attr("hidden", false);
+        $("#documents-table tbody").html(data.html_document_list);
+        $("#doc_pagination").html(data.html_pagination);
+      }
+    });
+    return false; // for good measure
+  });
 
   function newUrl(k, v){
       var url = window.location.search;

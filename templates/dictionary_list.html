@@ -2,16 +2,17 @@
 {% load static %}
 
 {% block content %}
-  <h1 class="page-header">Transactions</h1>
+  <h1 class="page-header">Elements</h1>
   <p>
     <button type="button" 
-            class="btn btn-primary js-create-document"
-            data-url="{% url 'document_create' %}">
+            class="btn btn-primary js-create-dictionary"
+            
       <span class="fa fa-plus" aria-hidden="true"></span>
-      New document
+      New element
     </button>
+    
   </p>
-  <table class="table" id="documents-table">
+  <table class="table" id="dictionary-table">
     <thead>
       <tr>
         {% for key, value in element_fields.items %}
@@ -22,13 +23,13 @@
       </tr>
     </thead>
     <tbody>
-      {% include 'partial_document_list.html' %}
+      {% include 'partial_dictionary_list.html' %}
     </tbody>
   </table>
-  <div id="doc_pagination">
-    {% include 'includes/pagination_fbv.html' %}
+  <div id="dic_pagination">
+    {% include 'includes/dictionary_pagination.html' %}
   </div>
-  <div class="modal fade" id="modal-document">
+  <div class="modal fade" id="modal-dictionary">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
       </div>

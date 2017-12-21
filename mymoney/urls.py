@@ -49,16 +49,19 @@ urlpatterns = [
         name='password_change'),
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
         name='password_change_done'),
-    #ajax
+
     url(r'^documents/$', views.documents_list, name='documents'),
     url(r'^documents/create/$', views.document_create, name='document_create'),
-    url(r'^documents/(?P<pk>\d+)/update/$', views.document_update, name='document_update'),
-    url(r'^documents/(?P<pk>\d+)/delete/$', views.document_delete, name='document_delete'),
+    url(r'^documents/(?P<pk>\d+)/update/$',
+        views.document_update, name='document_update'),
+    url(r'^documents/(?P<pk>\d+)/delete/$',
+        views.document_delete, name='document_delete'),
+
+    url(r'^currency/$', views.currency_list, name='currency'),
 
     url(r'^documents/(?P<pk>\d+)/$', views.documents, name='document'),
     url(r'^documents/(?P<pk>\d+)/edit/$',
         views.DocumentUpdateView.as_view(), name='edit_document'),
     url(r'^documents/(?P<pk>\d+)/new/$', views.new_document, name='new_document'),
-    url(r'^ex_rates/$', views.ex_rates, name='ex_rates'),
     url(r'^admin/', admin.site.urls),
 ]

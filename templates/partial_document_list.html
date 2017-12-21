@@ -1,14 +1,9 @@
+{% load form_tags %}
 {% for document in all_documents %}
 <tr>
-  <td>{{ document.number }}</td>
-  <td>{{ document.document_type }}</td>
-  <td>{{ document.active }}</td>
-  <td>{{ document.counterparty }}</td>
-  <td>{{ document.wallet }}</td>
-  <td>{{ document.currency }}</td>
-  <td>{{ document.amount }}</td>
-  <td>{{ document.user }}</td>
-  <td>{{ document.comment }}</td>
+  {% for key, value in element_fields.items %}
+    <td>{{ document|get_item:key }}</td>
+  {% endfor %}
   <td>
     <button type="button" class="btn btn-warning btn-sm js-update-document" data-url="{% url 'document_update' document.number %}">
       <span class="fa fa-pencil"></span> Edit
