@@ -51,14 +51,24 @@ urlpatterns = [
         name='password_change_done'),
 
     url(r'^documents/$', views.documents_list, name='documents'),
+    url(r'^documents/income$', views.income_list, name='documents_income'),
+    url(r'^documents/expence$', views.expence_list, name='documents_expence'),
+    
     url(r'^documents/create/$', views.document_create, name='document_create'),
     url(r'^documents/(?P<pk>\d+)/update/$',
         views.document_update, name='document_update'),
     url(r'^documents/(?P<pk>\d+)/delete/$',
         views.document_delete, name='document_delete'),
 
-    url(r'^currency/$', views.currency_list, name='currency'),
-
+    url(r'^currencies/$', views.currencies_list, name='currencies'),
+    url(r'^countries/$', views.countries_list, name='countries'),
+    url(r'^banks/$', views.banks_list, name='banks'),
+    url(r'^wallets/$', views.wallets_list, name='wallets'),
+    url(r'^counterparties/$', views.counterparties_list, name='counterparties'),
+    url(r'^income_items/$', views.income_items_list, name='income_items'),
+    url(r'^expence_items/$', views.expence_items_list, name='expence_items'),
+    url(r'^exchange_rates/$', views.exchange_rates_list, name='exchange_rates'),
+    
     url(r'^documents/(?P<pk>\d+)/$', views.documents, name='document'),
     url(r'^documents/(?P<pk>\d+)/edit/$',
         views.DocumentUpdateView.as_view(), name='edit_document'),

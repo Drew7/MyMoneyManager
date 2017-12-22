@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from .models import Exchange_rate, Document, DocumentItem, Currency
+from .models import Exchange_rate, Document, DocumentItem, Currency, Country, Bank, Wallets_and_Accounts, Counterparties, Expense_item, Income_item
 from .forms import NewDocumentForm, NewDocumentItemForm, DocumentForm, DocumentFormSet
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView
@@ -9,7 +9,6 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .tables import DocumentTable
 
-from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -19,19 +18,8 @@ def home(request):
     all_documents = Document.objects.all()
     return render(request, 'home.html', {'all_documents': all_documents})
 
-
-def documents_list(request):
-    #all_documents = Document.objects.all()
-    element_fields = {'number': '#',
-                      'document_type': 'Document type',
-                      'active': 'Active',
-                      'counterparty': 'Counterparty',
-                      'wallet': 'Wallet',
-                      'currency': 'Currency',
-                      'amount': 'Amount',
-                      'user': 'User',
-                      'comment': 'Comment'}
-    queryset = Document.objects.all()
+def form_document_list(request, element_fields, queryset):
+    
     page = request.GET.get('page', 1)
 
     paginator = Paginator(queryset, 10)
@@ -54,6 +42,51 @@ def documents_list(request):
         return JsonResponse(data)
 
     return render(request, 'documents_list.html', {'all_documents': all_documents, 'element_fields': element_fields})
+
+def documents_list(request):
+
+    element_fields = {'number': '#',
+                      'document_type': 'Document type',
+                      'active': 'Active',
+                      'counterparty': 'Counterparty',
+                      'wallet': 'Wallet',
+                      'currency': 'Currency',
+                      'amount': 'Amount',
+                      'user': 'User',
+                      'comment': 'Comment'}
+    queryset = Document.objects.all()
+    
+    return form_document_list(request, element_fields, queryset)
+
+def income_list(request):
+    
+    element_fields = {'number': '#',
+                      'document_type': 'Document type',
+                      'active': 'Active',
+                      'counterparty': 'Counterparty',
+                      'wallet': 'Wallet',
+                      'currency': 'Currency',
+                      'amount': 'Amount',
+                      'user': 'User',
+                      'comment': 'Comment'}
+    queryset = get_list_or_404(Document, document_type = 'INCOME')
+    
+    return form_document_list(request, element_fields, queryset)
+
+def expence_list(request):
+    
+    element_fields = {'number': '#',
+                      'document_type': 'Document type',
+                      'active': 'Active',
+                      'counterparty': 'Counterparty',
+                      'wallet': 'Wallet',
+                      'currency': 'Currency',
+                      'amount': 'Amount',
+                      'user': 'User',
+                      'comment': 'Comment'}
+    queryset = get_list_or_404(Document, document_type = 'EXPENCE')
+    
+    return form_document_list(request, element_fields, queryset)
 
 
 def save_document_form(request, form, template_name, formset=None):
@@ -112,13 +145,7 @@ def document_delete(request, pk):
     return JsonResponse(data)
 
 
-def currency_list(request):
-    element_fields = {'digital_code': 'Code',
-                      'name': 'Name',
-                      'active': 'Active',
-                      'char_code': 'Char code',
-                      'upload_rates': 'Upload_rates'}
-    queryset = Currency.objects.all()
+def form_dictionary_list(request, element_fields, queryset):
     page = request.GET.get('page', 1)
 
     paginator = Paginator(queryset, 10)
@@ -141,6 +168,83 @@ def currency_list(request):
         return JsonResponse(data)
 
     return render(request, 'dictionary_list.html', {'dictionary_elements': dictionary_elements, 'element_fields': element_fields})
+
+
+def currencies_list(request):
+    element_fields = {'digital_code': 'Code',
+                      'name': 'Name',
+                      'active': 'Active',
+                      'char_code': 'Char code',
+                      'upload_rates': 'Upload_rates'}
+    queryset = Currency.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+
+def countries_list(request):
+    element_fields = {'digital_code': 'Code',
+                      'name': 'Name',
+                      'active': 'Active',
+                      'char_code': 'Char code'}
+    queryset = Country.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+
+def banks_list(request):
+    element_fields = {'digital_code': 'Code',
+                      'name': 'Name',
+                      'active': 'Active',
+                      'char_code': 'Char code',
+                      'country': 'Country'}
+    queryset = Bank.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+
+def wallets_list(request):
+    element_fields = {'name': 'Name',
+                      'active': 'Active',
+                      'wallet_type': 'Wallet type',
+                      'currency': 'Currency'}
+    queryset = Wallets_and_Accounts.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+
+def counterparties_list(request):
+    element_fields = {'name': 'Name',
+                      'active': 'Active',
+                      'contacts': 'Contacts type',
+                      'comment': 'Comment'}
+    queryset = Counterparties.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+def income_items_list(request):
+    element_fields = {'name': 'Name',
+                      'active': 'Active'}
+    queryset = Income_item.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+def expence_items_list(request):
+    element_fields = {'name': 'Name',
+                      'active': 'Active'}
+    queryset = Expense_item.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
+
+def exchange_rates_list(request):
+    element_fields = {'date_of_rate': 'Date',
+                      'bank': 'Bank',
+                      'currency': 'Currency',
+                      'base_currency': 'Base currency',
+                      'rate': 'Rate',
+                      'multiplicity': 'Multiplicity'}
+    queryset = Exchange_rate.objects.all()
+
+    return form_dictionary_list(request, element_fields, queryset)
 
 
 @login_required

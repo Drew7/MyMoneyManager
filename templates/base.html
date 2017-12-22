@@ -27,8 +27,8 @@
                     Documents
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="DocumentsMenu">
-                    <a class="dropdown-item" href="#">Income</a>
-                    <a class="dropdown-item" href="#">Expence</a>
+                    <a class="dropdown-item" href="{% url 'documents_income' %}">Income</a>
+                    <a class="dropdown-item" href="{% url 'documents_expence' %}">Expence</a>
                   </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -36,13 +36,13 @@
                       Dictionaries
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="DictionariesMenu">
-                    <a class="dropdown-item" href="{% url 'currency' %}">Currency</a>
-                    <a class="dropdown-item" href="#">Country</a>
-                    <a class="dropdown-item" href="#">Bank</a>
-                    <a class="dropdown-item" href="#">Wallets and Accounts</a>
-                    <a class="dropdown-item" href="#">Counterparties</a>
-                    <a class="dropdown-item" href="#">Income item</a>
-                    <a class="dropdown-item" href="#">Expense item</a>
+                    <a class="dropdown-item" href="{% url 'currencies' %}">Currencies</a>
+                    <a class="dropdown-item" href="{% url 'countries' %}">Countries</a>
+                    <a class="dropdown-item" href="{% url 'banks' %}">Banks</a>
+                    <a class="dropdown-item" href="{% url 'wallets' %}">Wallets and Accounts</a>
+                    <a class="dropdown-item" href="{% url 'counterparties' %}">Counterparties</a>
+                    <a class="dropdown-item" href="{% url 'income_items' %}">Income item</a>
+                    <a class="dropdown-item" href="{% url 'expence_items' %}">Expence item</a>
                   </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -59,7 +59,7 @@
                         Service
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ServiceMenu">
-                      <a class="dropdown-item" href="#">Exchange rates</a>
+                      <a class="dropdown-item" href="{% url 'exchange_rates' %}">Exchange rates</a>
                     </div>
                   </li>
               </ul>
