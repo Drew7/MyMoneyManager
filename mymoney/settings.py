@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&)n+qj(4d58j1u*)lp*hl2@tp!)cg0xxb2+!$sr!c35@yo!vgy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['drew7.pythonanywhere.com', '127.0.0.1']
 
